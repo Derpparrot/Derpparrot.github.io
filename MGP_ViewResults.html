@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <h1>
+        Melodi Grand Prix stemmeresultater!
+    </h1>
+
+    <h2>
+        Udviklet af Keviner121 og Pjevs123
+    </h2>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+
+<div>
+    <canvas id="myChart"></canvas>
+  </div>
+
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    
+    <script>
+
+        
+
+        const ctx = document.getElementById('myChart');
+      
+        myBarChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Sang1', 'Sang 2', 'Sang 3', 'Sang 4', 'Sang 5', 'Sang 6', 'Sang 7', 'Sang 8'],
+            datasets: [{
+              label: '# of Votes',
+              data: [0, 0, 0, 0, 0, 0, 0, 0],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 10
+              }
+            }
+          }
+        });
+      </script>
+    
+      <script>
+       
+       var myInterval = setInterval(function() {
+        var settings = {
+        "url": "http://35.180.198.147:5000/getScores",
+        "method": "GET",
+        "timeout": 0,
+        };
+
+        $.ajax(settings).done(function (response) {
+        console.log(response);
+        results = response.split(",")
+        console.log(results);
+        for(i = 0; i < 8; i++){
+        myBarChart.data.datasets[0].data[i] = results[i];
+        myBarChart.update();
+        }
+        });
+        }, 2000);
+        
+        
+
+      </script>
+      
